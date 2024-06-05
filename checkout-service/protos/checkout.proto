@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package checkout;
+option go_package = "./pb";
+
+service CheckoutService {
+  rpc ProcessCheckout (CheckoutRequest) returns (CheckoutResponse);
+}
+
+message CheckoutRequest {
+  string order_id = 1;
+}
+
+message CheckoutResponse {
+  string confirmation = 1;
+}
+

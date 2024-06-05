@@ -1,0 +1,21 @@
+apiVersion: skaffold/v2beta21
+kind: Config
+metadata:
+  name: checkout-service
+build:
+  artifacts:
+    - image: checkout-service
+      context: .
+      docker:
+        dockerfile: Dockerfile
+deploy:
+  kubeContext: custom
+  kubectl:
+    manifests:
+      - k8s/*.yaml
+portForward:
+  - resourceType: service
+    resourceName: checkout-service
+    namespace: default
+    port: 9090
+    localPort: 9091

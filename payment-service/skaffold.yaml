@@ -1,0 +1,21 @@
+apiVersion: skaffold/v2beta21
+kind: Config
+metadata:
+  name: payment-service
+build:
+  artifacts:
+    - image: payment-service
+      context: .
+      docker:
+        dockerfile: Dockerfile
+deploy:
+  kubeContext: custom  # Specify the Kubernetes context that matches your Minikube profile
+  kubectl:
+    manifests:
+      - k8s/*.yaml
+portForward:
+  - resourceType: service
+    resourceName: payment-service
+    namespace: default
+    port: 9091
+    localPort: 9092
