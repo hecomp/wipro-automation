@@ -13,7 +13,7 @@ ROLE="roles/storage.admin"  # Example role, change according to your needs
 #echo "Creating GKE cluster with Workload Identity..."
 #gcloud container clusters create $CLUSTER_NAME \
 #  --zone $ZONE \
-#  --workload-pool=$PROJECT_ID.svc.id.goog \
+#  --workload-pool=wipro-425519.svc.id.goog \
 #  --project $PROJECT_ID
 #
 ## Create a Google Service Account
