@@ -38,7 +38,5 @@ jobs:
 
       - name: Run Skaffold Deploy
         run: skaffold run --default-repo=gcr.io/${{ secrets.GCP_PROJECT_ID }} -f ./checkout-service/skaffold.yaml
-        env:
-          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
 
 
