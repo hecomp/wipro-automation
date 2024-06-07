@@ -20,8 +20,7 @@ jobs:
       - id: auth
         uses: google-github-actions/auth@v2
         with:
-          token_format: ${{ steps.auth.outputs.access_token }}
-          workload_identity_provider: 'projects/wipro-425519/locations/global/workloadIdentityPools/automation-pool/providers/automation-provider'
+          workload_identity_provider: projects/wipro-425519/locations/global/workloadIdentityPools/wipro-425519.svc.id.goog
           service_account: automation-gsa@wipro-425519.iam.gserviceaccount.com
 
       - name: Set up Cloud SDK
