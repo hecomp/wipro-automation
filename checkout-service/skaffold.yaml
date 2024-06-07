@@ -8,9 +8,9 @@ build:
       context: ./checkout-service
       docker:
         dockerfile: ./checkout-service/Dockerfile
-        platforms: ["linux/amd64"]
   tagPolicy:
     gitCommit: {}
+  platforms: "linux/amd64"
 deploy:
   kubeContext: gke_wipro-425519_us-central1_automation-cluster
   kubectl: {}
