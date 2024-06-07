@@ -26,17 +26,10 @@ jobs:
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
         with:
-          version: '>= 363.0.0'
+          version: latest
 
-      - name: Use gcloud CLI
-        run: gcloud info
-
-#      - name: Set up Google Cloud SDK
-#        uses: google-github-actions/setup-gcloud@v2
-#        with:
-#          project_id: ${{ secrets.GCP_PROJECT_ID }}
-#          service_account_key: ${{ secrets.GCP_SA_KEY }}
-#          export_default_credentials: true
+      - name: Configure Docker
+        run: gcloud auth configure-docker
 
       - name: Install Skaffold
         run: |
@@ -48,8 +41,4 @@ jobs:
 #        env:
 #          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
 
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v1
-        with:
-          version: '1.18.8'
 
