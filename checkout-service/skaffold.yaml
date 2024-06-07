@@ -10,7 +10,8 @@ build:
         dockerfile: ./checkout-service/Dockerfile
   tagPolicy:
     gitCommit: {}
-  platforms: "linux/amd64"
+  platforms:
+    - linux/amd64
 deploy:
   kubeContext: gke_wipro-425519_us-central1_automation-cluster
   kubectl: {}
