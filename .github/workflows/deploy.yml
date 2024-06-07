@@ -41,24 +41,23 @@ jobs:
 #        run: |
 #          gcloud auth activate-service-account --key-file gcloud-service-key.json
 
-      - name: Run Skaffold Deploy
-        run: skaffold run --default-repo=gcr.io/${{ secrets.GCP_PROJECT_ID }} -f ./checkout-service/skaffold.yaml
-        env:
-          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
-
 #      - name: Run Skaffold Deploy
-#        run: |
-#          echo "${{ secrets.GOOGLE_CREDENTIALS }}" > gcloud-service-key.json
-#          gcloud auth activate-service-account --key-file gcloud-service-key.json
-#          gcloud config set project $GCP_PROJECT_ID
-#          gcloud config set compute/zone us-central1-a
-#          gcloud container clusters get-credentials $CLUSTER_NAME
-#          kubectl config get-contexts
-#          skaffold run --default-repo=gcr.io/${{ secrets.GCP_PROJECT_ID }} -f ./checkout-service/skaffold.yaml
+#        run: skaffold run --default-repo=gcr.io/${{ secrets.GCP_PROJECT_ID }} -f ./checkout-service/skaffold.yaml
 #        env:
 #          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-#          CLUSTER_NAME: ${{ secrets.CLUSTER_NAME }}
+#          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
+
+      - name: Run Skaffold Deploy
+        run: |
+          gcloud auth activate-service-account --key-file ${{ steps.auth.outputs.credentials_file_path }}
+          gcloud config set project $GCP_PROJECT_ID
+          gcloud config set compute/zone us-central1-a
+          gcloud container clusters get-credentials $CLUSTER_NAME
+          kubectl config get-contexts
+          skaffold run --default-repo=gcr.io/${{ secrets.GCP_PROJECT_ID }} -f ./checkout-service/skaffold.yaml
+        env:
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          CLUSTER_NAME: ${{ secrets.CLUSTER_NAME }}
 
 
 
