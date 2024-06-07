@@ -37,10 +37,8 @@ jobs:
           sudo install skaffold /usr/local/bin/
 
       - name: Run Skaffold Deploy
-        run: skaffold run -f skaffold.yaml
+        run: skaffold run -f ../checkout-service/skaffold.yaml
         env:
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-        working-directory: ../checkout-service
-
 
 
