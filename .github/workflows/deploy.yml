@@ -36,6 +36,9 @@ jobs:
           curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
           sudo install skaffold /usr/local/bin/
 
+      - name: Set up environment variable
+        run: echo "GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID }}" >> $GITHUB_ENV
+
       - name: Run Skaffold Deploy
         run: skaffold run --default-repo=gcr.io/${{ secrets.GCP_PROJECT_ID }} -f ./checkout-service/skaffold.yaml
         env:
