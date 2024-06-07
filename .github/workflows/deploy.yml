@@ -36,10 +36,11 @@ jobs:
           curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
           sudo install skaffold /usr/local/bin/
 
-      - name: Debug JSON output
+      - name: Run Skaffold Deploy
         run: |
           echo "${{ secrets.GOOGLE_CREDENTIALS }}" > gcloud-service-key.json
-          cat gcloud-service-key.json
+          gcloud auth activate-service-account --key-file gcloud-service-key.json
+
 #      - name: Run Skaffold Deploy
 #        run: |
 #          echo "${{ secrets.GOOGLE_CREDENTIALS }}" > gcloud-service-key.json
