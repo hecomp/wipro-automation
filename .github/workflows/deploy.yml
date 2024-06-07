@@ -31,15 +31,20 @@ jobs:
       - name: Configure Docker
         run: gcloud auth configure-docker
 
-      - name: Install Skaffold
+      - name: Write the GCP JSON key
         run: |
-          curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
-          sudo install skaffold /usr/local/bin/
+          echo "${{ secrets.GOOGLE_CREDENTIALS }}" | base64 --decode > gcloud-service-key.json
+          cat gcloud-service-key.json
+          
 
-      - name: Run Skaffold Deploy
-        run: |
-          echo "${{ secrets.GOOGLE_CREDENTIALS }}" > gcloud-service-key.json
-          gcloud auth activate-service-account --key-file gcloud-service-key.json
+#      - name: Install Skaffold
+#        run: |
+#          curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
+#          sudo install skaffold /usr/local/bin/
+#
+#      - name: Run Skaffold Deploy
+#        run: |
+#          gcloud auth activate-service-account --key-file gcloud-service-key.json
 
 #      - name: Run Skaffold Deploy
 #        run: |
