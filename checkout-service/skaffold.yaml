@@ -4,12 +4,15 @@ metadata:
   name: checkout-service
 build:
   artifacts:
-    - image: checkout-service
+    - image: gcr.io/${GCP_PROJECT_ID}/checkout-service
       context: .
       docker:
         dockerfile: Dockerfile
+  tagPolicy:
+    gitCommit: {}
+  default-repo: gcr.io/${GCP_PROJECT_ID}
 deploy:
-  kubeContext: custom
+  kubeContext: gke_wipro-425519_us-central1_automation-cluster
   kubectl:
     manifests:
       - k8s/*.yaml
