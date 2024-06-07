@@ -31,8 +31,8 @@ ROLE="roles/storage.admin"  # Example role, change according to your needs
 #  --project $PROJECT_ID
 
 # Create a Kubernetes Service Account in the specified namespace
-echo "Creating Kubernetes Service Account..."
-kubectl create serviceaccount $KSA_NAME --namespace $NAMESPACE
+#echo "Creating Kubernetes Service Account..."
+#kubectl create serviceaccount $KSA_NAME --namespace $NAMESPACE
 
 # Bind the Kubernetes Service Account to the Google Service Account
 echo "Binding Kubernetes Service Account to Google Service Account..."
