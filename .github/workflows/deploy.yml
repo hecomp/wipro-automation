@@ -22,6 +22,7 @@ jobs:
         with:
           workload_identity_provider: projects/683387273161/locations/global/workloadIdentityPools/github-pool/providers/github
           service_account: automation-gsa@wipro-425519.iam.gserviceaccount.com
+          create_credentials_file: true
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
@@ -31,20 +32,20 @@ jobs:
       - name: Configure Docker
         run: gcloud auth configure-docker
 
-      - name: Write the GCP JSON key
+      - name: Install Skaffold
         run: |
-          echo "${{ secrets.GOOGLE_CREDENTIALS }}" | base64 --decode > gcloud-service-key.json
-          cat gcloud-service-key.json
-          
-
-#      - name: Install Skaffold
-#        run: |
-#          curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
-#          sudo install skaffold /usr/local/bin/
+          curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
+          sudo install skaffold /usr/local/bin/
 #
 #      - name: Run Skaffold Deploy
 #        run: |
 #          gcloud auth activate-service-account --key-file gcloud-service-key.json
+
+      - name: Run Skaffold Deploy
+        run: skaffold run --default-repo=gcr.io/${{ secrets.GCP_PROJECT_ID }} -f ./checkout-service/skaffold.yaml
+        env:
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
 
 #      - name: Run Skaffold Deploy
 #        run: |
