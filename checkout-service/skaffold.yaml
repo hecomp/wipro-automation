@@ -4,7 +4,7 @@ metadata:
   name: checkout-service
 build:
   artifacts:
-    - image: gcr.io/wipro-425519/checkout-service
+    - image: 'gcr.io/{{.GCP_PROJECT_ID}}/checkout-service'
       context: ./checkout-service
       docker:
         dockerfile: ./checkout-service/Dockerfile
