@@ -10,26 +10,25 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: read
-      id-token: write
+      contents: 'read'
+      id-token: 'write'
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3  # Updated to use the latest version of the checkout action
+        uses: actions/checkout@v2
 
-      - name: Authenticate to GCP
+      - id: auth
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: 'projects/683387273161/locations/global/workloadIdentityPools/github-pool/providers/github'
-          service_account: 'automation-gsa@wipro-425519.iam.gserviceaccount.com'
+          workload_identity_provider: projects/683387273161/locations/global/workloadIdentityPools/github-pool/providers/github
+          service_account: automation-gsa@wipro-425519.iam.gserviceaccount.com
 
-      - name: Set up Google Cloud SDK
+      - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
         with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          version: 'latest'  # Ensure you're using the latest version of Cloud SDK
+          version: latest
 
-      - name: Configure Docker for GCP
+      - name: Configure Docker
         run: gcloud auth configure-docker
 
       - name: Install Skaffold
@@ -38,6 +37,8 @@ jobs:
           sudo install skaffold /usr/local/bin/
 
       - name: Run Skaffold Deploy
-        run: skaffold run --default-repo=gcr.io/${{ env.GCP_PROJECT_ID }} -f ./checkout-service/skaffold.yaml
+        run: skaffold run --default-repo=gcr.io/${{ secrets.GCP_PROJECT_ID }} -f ./checkout-service/skaffold.yaml
         env:
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+
+
