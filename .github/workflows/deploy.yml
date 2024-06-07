@@ -37,6 +37,18 @@ jobs:
           sudo install skaffold /usr/local/bin/
 
       - name: Run Skaffold Deploy
-        run: skaffold run --default-repo=gcr.io/${{ secrets.GCP_PROJECT_ID }} -f ./checkout-service/skaffold.yaml
+        run: |
+          echo "$GOOGLE_CREDENTIALS" > gcloud-service-key.json
+          gcloud auth activate-service-account --key-file gcloud-service-key.json
+          gcloud config set project $GCP_PROJECT_ID
+          gcloud config set compute/zone us-central1-a
+          gcloud container clusters get-credentials $CLUSTER_NAME
+          kubectl config get-contexts
+          skaffold run --default-repo=gcr.io/${{ secrets.GCP_PROJECT_ID }} -f ./checkout-service/skaffold.yaml
+        env:
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          CLUSTER_NAME: ${{ secrets.CLUSTER_NAME }}
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+
 
 
