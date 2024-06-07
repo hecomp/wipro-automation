@@ -38,7 +38,7 @@ jobs:
 
       - name: Run Skaffold Deploy
         run: |
-          echo "$GOOGLE_CREDENTIALS" > gcloud-service-key.json
+          echo "${{ secrets.GOOGLE_CREDENTIALS }}" > gcloud-service-key.json
           gcloud auth activate-service-account --key-file gcloud-service-key.json
           gcloud config set project $GCP_PROJECT_ID
           gcloud config set compute/zone us-central1-a
@@ -48,7 +48,6 @@ jobs:
         env:
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           CLUSTER_NAME: ${{ secrets.CLUSTER_NAME }}
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
 
 
 
