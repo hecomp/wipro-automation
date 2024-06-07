@@ -10,7 +10,7 @@ build:
         dockerfile: Dockerfile
   tagPolicy:
     gitCommit: {}
-  default-repo: gcr.io/${GCP_PROJECT_ID}
+  default-repo: gcr.io/${GCP_PROJECT_ID}  # This should be inside the 'build' section, but not under 'artifacts'.
 deploy:
   kubeContext: gke_wipro-425519_us-central1_automation-cluster
   kubectl:
