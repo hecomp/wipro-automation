@@ -5,9 +5,10 @@ metadata:
 build:
   artifacts:
     - image: gcr.io/wipro-425519/checkout-service
-      context: .
+      context: ./checkout-service
       docker:
-        dockerfile: Dockerfile
+        dockerfile: ./checkout-service/Dockerfile
+        platform: "linux/amd64"
   tagPolicy:
     gitCommit: {}
 deploy:
