@@ -12,8 +12,8 @@ build:
     gitCommit: {}
 deploy:
   kubeContext: gke_wipro-425519_us-central1_automation-cluster
-  kubectl:
-    manifests:
+  kubectl: {}
+manifests:
       kustomize:
         paths:
           - k8s/overlays/dev
