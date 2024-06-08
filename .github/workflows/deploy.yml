@@ -30,10 +30,7 @@ jobs:
           version: '>= 363.0.0'
 
       - name: Configure Docker
-        run: |
-          gcloud auth configure-docker
-          gcloud config set project $GCP_PROJECT_ID
-          gcloud container clusters get-credentials $CLUSTER_NAME
+        run: gcloud auth configure-docker
 
       - name: Install Skaffold
         run: |
