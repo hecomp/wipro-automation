@@ -1,18 +1,24 @@
-apiVersion: skaffold/v2beta21
+apiVersion: skaffold/v4beta11
 kind: Config
 metadata:
   name: checkout-service
 build:
   artifacts:
-    - image: checkout-service
-      context: .
+    - image: gcr.io/wipro-425519/checkout-service
+      context: ./checkout-service
       docker:
-        dockerfile: Dockerfile
+        dockerfile: ./checkout-service/Dockerfile
+  tagPolicy:
+    gitCommit: {}
+  platforms:
+    - linux/arm64
 deploy:
-  kubeContext: custom
-  kubectl:
-    manifests:
-      - k8s/*.yaml
+  kubeContext: gke_wipro-425519_us-central1_automation-cluster
+  kubectl: {}
+manifests:
+      kustomize:
+        paths:
+          - k8s/overlays/dev
 portForward:
   - resourceType: service
     resourceName: checkout-service

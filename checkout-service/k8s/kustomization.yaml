@@ -1,0 +1,6 @@
+namespace: automation-ns
+
+resources:
+  - overlays/dev/checkout-deployment.yaml
+  - overlays/dev/checkout-ingress.yaml
+  - overlays/dev/checkout-service.yaml

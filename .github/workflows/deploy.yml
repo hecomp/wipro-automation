@@ -1,0 +1,67 @@
+name: Deploy to GCP with Skaffold
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/683387273161/locations/global/workloadIdentityPools/github-pool/providers/github
+          service_account: automation-gsa@wipro-425519.iam.gserviceaccount.com
+          create_credentials_file: true
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          version: '>= 363.0.0'
+
+      - name: Configure Docker
+        run: gcloud auth configure-docker
+
+      - name: Install Skaffold
+        run: |
+          curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
+          sudo install skaffold /usr/local/bin/
+
+      - name: Run Skaffold Deploy
+        run: skaffold run --default-repo=gcr.io/${{ secrets.GCP_PROJECT_ID }} -f ./checkout-service/skaffold.yaml
+
+#      - name: Run Skaffold Deploy
+#        run: |
+#          gcloud auth activate-service-account --key-file gcloud-service-key.json
+
+#      - name: Run Skaffold Deploy
+#        run: skaffold run --default-repo=gcr.io/${{ secrets.GCP_PROJECT_ID }} -f ./checkout-service/skaffold.yaml
+#        env:
+#          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+#          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
+
+#      - name: Run Skaffold Deploy
+#        run: |
+##          gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
+#           gcloud config set project $GCP_PROJECT_ID
+##          gcloud config set compute/zone us-central1-a
+#           gcloud container clusters get-credentials $CLUSTER_NAME
+#           kubectl config get-contexts
+#           skaffold run --default-repo=gcr.io/${{ secrets.GCP_PROJECT_ID }} -f ./checkout-service/skaffold.yaml
+#        env:
+#          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+#          CLUSTER_NAME: ${{ secrets.CLUSTER_NAME }}
+#          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
+
+
+
