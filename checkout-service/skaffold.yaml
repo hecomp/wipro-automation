@@ -11,7 +11,7 @@ build:
   tagPolicy:
     gitCommit: {}
   platforms:
-    - linux/amd64
+    - linux/arm64
 deploy:
   kubeContext: gke_wipro-425519_us-central1_automation-cluster
   kubectl: {}
